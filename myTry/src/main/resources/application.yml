@@ -1,0 +1,24 @@
+logging:
+  config: classpath:logback-spring.xml
+
+spring:
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        platform: postgres
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/traffic_monitoring
+        username: traffic_monitoring
+        password: vgs
+        hikari:
+            maximum-pool-size: 100
+            minimum-idle: 10
+    jackson:
+      default-property-inclusion: non_null
+    jpa:
+      hibernate:
+        ddl-auto: create-drop
+
+
+my:
+    worker-pool-size: 8
+    max-execute-time: 120000 #2 minutes

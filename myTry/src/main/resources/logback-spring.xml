@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <property name="ASYNC_QUEUE_SIZE" value="2000"/>
+    <property name="FILE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{35} - %msg%n"/>
+
+
+    <logger name="javax.xml.bind" level="WARN"/>
+    <logger name="ch.qos.logback" level="WARN"/>
+    <logger name="com.codahale.metrics" level="WARN"/>
+    <logger name="com.ryantenney" level="WARN"/>
+    <logger name="com.sun" level="WARN"/>
+    <logger name="com.zaxxer" level="WARN"/>
+    <logger name="io.undertow" level="WARN"/>
+    <logger name="org.ehcache" level="WARN"/>
+    <logger name="org.apache" level="WARN"/>
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.web" level="WARN"/>
+    <logger name="org.springframework.security" level="WARN"/>
+    <logger name="org.springframework.cache" level="WARN"/>
+    <logger name="org.thymeleaf" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+
+    <logger name="com.my.vertx" level="DEBUG"/>
+
+
+    <appender name="FILE-REDRAKE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <param name="file" value="myTry/logs/myvertx.log"/>
+        <param name="Append" value="true"/>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>myvertx.log.%d{yyyy-MM-dd}</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC-FILE-REDRAKE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${ASYNC_QUEUE_SIZE}</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="FILE-REDRAKE"/>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC-FILE-REDRAKE"/>
+    </root>
+
+</configuration>
